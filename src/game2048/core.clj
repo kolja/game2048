@@ -12,20 +12,18 @@
 
 (def r #(remove zero? %))
 
-(defn render [v]
-  (doseq [line (for [row v]
-                 (apply str (map #(format "%5d " %) row)))]
-    (println line "\n")) v)
+
 
 (defn -main []
-  (loop [board (i (partition 4 (repeat 16 0)))]
-    (when (render board)
-      (-> board ((apply comp
-                        (assoc (into [] (repeat 5 (fn [v] (map (fn [n] (map #(nth % n) v)) [3 2 1 0]))))
-                               ({"h" 4 "k" 3 "l" 2 "j" 1} (read-line)) (partial map (comp #(take 4 (concat % [0 0 0 0]))
-                                                                                          (fn [v] (r (reduce #(let [l (last %1)]
-                                                                                                                (if (= %2 l)
-                                                                                                                  (conj (pop %1) (+ l %2) 0)
-                                                                                                                  (conj %1 %2)))
-                                                                                                             [] v))) r))))) i recur))))
+  (loop [b (i (partition 4 (repeat 16 0)))]
+    (when ((fn [v] (doseq [l (for [a v] (apply str (map #(format "%5d " %) a)))]
+          (println l "\n")) v) b)
+      (-> b ((apply comp
+                    (assoc (into [] (repeat 5 (fn [v] (map (fn [n] (map #(nth % n) v)) [3 2 1 0]))))
+                           ({"h" 4 "k" 3 "l" 2 "j" 1} (read-line)) (partial map (comp #(take 4 (concat % [0 0 0 0]))
+                                                                                      (fn [v] (r (reduce #(let [l (last %1)]
+                                                                                                            (if (= %2 l)
+                                                                                                              (conj (pop %1) (+ l %2) 0)
+                                                                                                              (conj %1 %2)))
+                                                                                                         [] v))) r))))) i recur))))
 
