@@ -1,6 +1,8 @@
 (ns game2048.core
   (:gen-class))
 
+;; r : remove-zeros
+
 (defn insert-2 [board]
   (let [flat (into [] (flatten board))
         zero-indices (seq (keep-indexed
@@ -11,8 +13,7 @@
       (empty? zero-indices) (pr "game over")
       :else (partition 4 (assoc flat (rand-nth zero-indices) 2)))))
 
-(defn remove-zeros [row]
- (remove zero? row))
+(def r #(remove zero? %))
 
 (defn render [v]
   (doseq [line (for [row v]
@@ -22,12 +23,12 @@
 (defn slide [board]
  (map (comp
         #(take 4 (concat % [0 0 0 0]))
-        (fn [v] (remove-zeros (reduce #(let [l (last %1)]
-                                 (if (= %2 l)
-                                   (conj (pop %1) (+ l %2) 0)
-                                   (conj %1 %2)))
-                              [] v)))
-        remove-zeros
+        (fn [v] (r (reduce #(let [l (last %1)]
+                              (if (= %2 l)
+                                (conj (pop %1) (+ l %2) 0)
+                                (conj %1 %2)))
+                           [] v)))
+        r
         ) board))
 
 (defn -main []
