@@ -11,18 +11,8 @@
       (empty? zero-indices) (pr "game over")
       :else (partition 4 (assoc flat (rand-nth zero-indices) 2)))))
 
-(defn rotate [board]
-  (map
-    (fn [n]
-        (map #(nth % n)
-             board))
-    [3 2 1 0]))
-
 (defn remove-zeros [row]
  (remove zero? row))
-
-(defn fill [row]
- (take 4 (concat row [0 0 0 0])))
 
 (defn sum-up [acc x]
   (let [l (last acc)]
@@ -40,18 +30,17 @@
 
 (defn slide [board]
  (map (comp
-        fill
+        #(take 4 (concat % [0 0 0 0]))
         sum-pairs
         remove-zeros
         ) board))
-
 
 (defn -main []
   (loop [board (insert-2 (partition 4 (repeat 16 0)))]
     (when (render board)
       (let [input ({"h" 4 "k" 3 "l" 2 "j" 1} (read-line))
             command (apply comp
-                           (assoc (into [] (repeat 5 rotate))
-                                  input slide))] ;; (comp rotate rotate slide rotate rotate)
+                           (assoc (into [] (repeat 5 (fn [v] (map (fn [n] (map #(nth % n) v)) [3 2 1 0]))))
+                                  input slide))]
         (-> board command insert-2 recur)))))
 
