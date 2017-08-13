@@ -1,36 +1,17 @@
-# game2048
+# 2048 game
 
-FIXME: description
+Minimal version of the 2048 game. My contribution to this code-golf challenge:
+https://codegolf.stackexchange.com/questions/24134/create-a-simple-2048-game-clone
 
-## Installation
-
-Download from http://example.com/FIXME.
+Try it in an online REPL: https://repl.it/KDNU/3
 
 ## Usage
 
-FIXME: explanation
-
-    $ java -jar game2048-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+    $ lein run
 
 ## License
 
-Copyright © 2017 FIXME
+Copyright © 2017 Kolja Wilcke
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
