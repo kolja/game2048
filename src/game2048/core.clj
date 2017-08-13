@@ -14,15 +14,6 @@
 (defn remove-zeros [row]
  (remove zero? row))
 
-(defn sum-up [acc x]
-  (let [l (last acc)]
-    (if (= x l)
-      (conj (pop acc) (+ l x) 0)
-      (conj acc x))))
-
-(defn sum-pairs [v]
-  (remove-zeros (reduce sum-up [] v)))
-
 (defn render [v]
   (doseq [line (for [row v]
                  (apply str (map #(format "%5d " %) row)))]
@@ -31,7 +22,11 @@
 (defn slide [board]
  (map (comp
         #(take 4 (concat % [0 0 0 0]))
-        sum-pairs
+        (fn [v] (remove-zeros (reduce #(let [l (last %1)]
+                                 (if (= %2 l)
+                                   (conj (pop %1) (+ l %2) 0)
+                                   (conj %1 %2)))
+                              [] v)))
         remove-zeros
         ) board))
 
