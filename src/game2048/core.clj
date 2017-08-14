@@ -6,12 +6,12 @@
         w repeat
         a assoc
         y apply
-        i (fn[b]
-            (let [f (into[](flatten b))
-                  z (seq(keep-indexed #(when(zero? %2)%1)f))]
+        i(fn[b]
+            (let[f(into[](flatten b))
+                 z(seq(keep-indexed #(when(zero? %2)%1)f))]
               (cond (some #{2048}f)(pr"you win")
                     (empty? z)(pr"game over")
-                    :e (t 4(a f(rand-nth z)2)))))
+                    :e(t 4(a f(rand-nth z)2)))))
         r #(remove zero? %)]
     (loop[b(i(t 4(w 16 0)))]
       (when((fn[v](doseq[l(for[a v](y str(map #(format "%5d " %)a)))]
